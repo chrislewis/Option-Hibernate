@@ -14,5 +14,6 @@ class OptionHibernateProject(info: ProjectInfo) extends DefaultProject(info) {
   
   val sl4j = "org.slf4j" % "slf4j-api" % "1.5.8" % "provided"
   val sl4jApi = "org.slf4j" % "slf4j-log4j12" % "1.5.0" % "provided"
+  
 }
 

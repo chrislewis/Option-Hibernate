@@ -1,28 +1,20 @@
 import org.specs._
 import entities._
-import org.hibernate.cfg._
-import org.hibernate.ejb.Ejb3Configuration
 
-class ConfigSpec extends Specification {
-  
-  val em = new Ejb3Configuration()
-    .addAnnotatedClass(classOf[User])
-    .configure("/hibernate.cfg.xml")
-    .buildEntityManagerFactory()
-    .createEntityManager()
+class ConfigSpec extends Specification with ConfiguredTestEM {
   
   "A configured EntityManager" should {
+    
+    testEM.getTransaction().begin()
+    
     "persist a known entity" in {
-      val u = new User("chris")
-      u.id must beOneOf(null, 0L)
-      
-      em.getTransaction().begin()
-      em.persist(u)
+      val u = testEM.merge(new User("chris"))
       u.id must beGreaterThan(0L)
       
-      em.refresh(u)
+      testEM.refresh(u)
       u.firstName must be("chris")
     }
+    
   }
   
 }
